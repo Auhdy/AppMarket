@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertidor de Divisas - AppMarket</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6C63FF;
+            --secondary: #FF6584;
+            --accent: #36D1DC;
+            --success: #4CC9F0;
+            --warning: #FF9E64;
+            --light: #f8f9fa;
+            --dark: #2D3047;
+            --gray: #6c757d;
+            --border-radius: 12px;
+            --box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            --gradient: linear-gradient(135deg, #6C63FF 0%, #36D1DC 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fb;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header */
+        header {
+            background: var(--gradient);
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 25px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s;
+            padding: 8px 12px;
+            border-radius: 20px;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* App Header */
+        .app-header {
+            padding: 60px 0 40px;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        
+        .app-header-content {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+        
+        .app-icon-container {
+            position: relative;
+            flex-shrink: 0;
+        }
+        
+        .app-icon {
+            width: 150px;
+            height: 150px;
+            background: white;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            transition: transform 0.3s;
+            border: 1px solid #eee;
+        }
+        
+        .app-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .app-icon:hover {
+            transform: scale(1.05);
+        }
+        
+        .app-info h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .app-developer {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 15px;
+        }
+        
+        .app-rating {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .stars {
+            color: var(--warning);
+        }
+        
+        .rating-text {
+            font-weight: 600;
+        }
+        
+        .app-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 25px;
+        }
+        
+        .btn {
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .btn-primary {
+            background: var(--secondary);
+            color: white;
+            box-shadow: 0 4px 10px rgba(255, 101, 132, 0.4);
+        }
+        
+        .btn-primary:hover {
+            background: #ff4d6d;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(255, 101, 132, 0.5);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+            box-shadow: 0 4px 10px rgba(76, 201, 240, 0.4);
+        }
+        
+        .btn-success:hover {
+            background: #2fbde8;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(76, 201, 240, 0.5);
+        }
+        
+        /* App Content */
+        .app-content {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            color: var(--dark);
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .section-title::after {
+            content: "";
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--gradient);
+            margin-top: 10px;
+            border-radius: 2px;
+        }
+        
+        .app-description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            color: #555;
+        }
+        
+        /* Screenshots */
+        .screenshots {
+            margin-bottom: 60px;
+        }
+        
+        .screenshots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .screenshot {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: transform 0.3s;
+            background: #e9ecef;
+            height: 450px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            font-size: 1.2rem;
+        }
+        
+        .screenshot:hover {
+            transform: translateY(-5px);
+        }
+        
+        .screenshot img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: white;
+        }
+        
+        /* Additional Screenshots Section */
+        .additional-screenshots {
+            margin-bottom: 60px;
+        }
+        
+        .screenshots-carousel {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 20px 0;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) #f1f1f1;
+        }
+        
+        .screenshots-carousel::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .screenshots-carousel::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .screenshots-carousel::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+        
+        .carousel-screenshot {
+            min-width: 300px;
+            height: 550px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            background: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .carousel-screenshot img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: white;
+        }
+        
+        /* Purchase Form */
+        .purchase-form {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--box-shadow);
+            max-width: 600px;
+            margin: 0 auto;
+            display: none;
+        }
+        
+        .purchase-form.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        
+        .payment-method {
+            text-align: center;
+            padding: 20px;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            background: rgba(108, 99, 255, 0.05);
+            margin-bottom: 20px;
+        }
+        
+        .payment-method i {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .payment-method span {
+            display: block;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+        
+        /* QR Section */
+        .qr-section {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--box-shadow);
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+            display: none;
+        }
+        
+        .qr-section.active {
+            display: block;
+        }
+        
+        .qr-code {
+            width: 250px;
+            height: 250px;
+            margin: 20px auto;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #ddd;
+        }
+        
+        .qr-code img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        
+        .payment-details {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        
+        .payment-details h3 {
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .payment-details p {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .payment-details i {
+            color: var(--primary);
+            width: 20px;
+        }
+        
+        /* Reference Form */
+        .reference-form {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--box-shadow);
+            max-width: 600px;
+            margin: 20px auto 0;
+            display: none;
+        }
+        
+        .reference-form.active {
+            display: block;
+        }
+        
+        /* Download Section */
+        .download-section {
+            text-align: center;
+            padding: 60px 0;
+            background: var(--gradient);
+            color: white;
+            display: none;
+        }
+        
+        .download-section.active {
+            display: block;
+        }
+        
+        .download-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        
+        .download-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .download-section p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        
+        .download-link-container {
+            margin: 30px 0;
+        }
+        
+        .download-info {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .download-info i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #4CC9F0;
+        }
+        
+        .file-info {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .security-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #4CC9F0;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+        }
+        
+        .copyright {
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .app-header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .app-icon-container {
+                margin: 0 auto;
+            }
+            
+            .app-rating {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-links {
+                margin: 15px 0;
+            }
+            
+            .screenshots-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .carousel-screenshot {
+                min-width: 250px;
+                height: 450px;
+            }
+            
+            .qr-code {
+                width: 200px;
+                height: 200px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+            
+            .nav-links li {
+                margin-left: 0;
+            }
+            
+            .app-icon {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .app-info h1 {
+                font-size: 2rem;
+            }
+            
+            .purchase-form, .qr-section, .reference-form {
+                padding: 20px;
+            }
+            
+            .carousel-screenshot {
+                min-width: 200px;
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <img src="https://i.ibb.co/QvbrPDqL/1000477611.png" alt="AppMarket Logo">
+                    AppMarket
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li><a href="#"><i class="fas fa-arrow-left"></i> Volver</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- App Header -->
+    <section class="app-header">
+        <div class="container">
+            <div class="app-header-content">
+                <div class="app-icon-container">
+                    <div class="app-icon">
+                        <img src="https://i.ibb.co/QvbrPDqL/1000477611.png" alt="Convertidor de Divisas Icon">
+                    </div>
+                </div>
+                <div class="app-info">
+                    <h1>Convertidor de Divisas</h1>
+                    <p class="app-developer">Finance Solutions Inc.</p>
+                    <div class="app-rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="rating-text">4.7 (2,458 valoraciones)</span>
+                    </div>
+                    <div class="app-price">$2.99 <span style="font-size: 0.8rem; color: var(--gray);">tasa BCV</span></div>
+                    <button id="buy-btn" class="btn btn-primary">
+                        <i class="fas fa-shopping-cart"></i> Comprar Ahora
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Content -->
+    <section class="app-content">
+        <div class="container">
+            <div class="app-description">
+                <h2 class="section-title">Descripción</h2>
+                <p>Convertidor de Divisas es la aplicación más completa y precisa para convertir entre más de 150 monedas del mundo. Obtén tasas de cambio en tiempo real, realiza seguimiento de tus conversiones favoritas y accede a datos históricos.</p>
+                
+                <p>Características principales:</p>
+                <ul>
+                    <li>Conversión en tiempo real con tasas actualizadas cada minuto</li>
+                    <li>Más de 150 monedas internacionales</li>
+                    <li>Gráficos históricos de conversión</li>
+                    <li>Modo offline con tasas recientes</li>
+                    <li>Calculadora integrada para operaciones complejas</li>
+                    <li>Interfaz intuitiva y fácil de usar</li>
+                </ul>
+            </div>
+
+            <div class="screenshots">
+                <h2 class="section-title">Capturas de Pantalla</h2>
+                <div class="screenshots-grid">
+                    <div class="screenshot">
+                        <img src="https://i.ibb.co/Z6hBvHQt/1000486783.jpg" alt="Selección de países y monedas">
+                    </div>
+                    <div class="screenshot">
+                        <img src="https://i.ibb.co/nNc5kbSc/1000486784.jpg" alt="Interfaz principal de conversión">
+                    </div>
+                    <div class="screenshot">
+                        <img src="https://i.ibb.co/HmjvgK6/1000486787.jpg" alt="Calculadora de divisas">
+                    </div>
+                    <div class="screenshot">
+                        <img src="https://i.ibb.co/0VDZGwKL/1000486789.jpg" alt="Opciones de edición de tasas">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Screenshots Section -->
+            <div class="additional-screenshots">
+                <h2 class="section-title">Galería de la Aplicación</h2>
+                <div class="screenshots-carousel">
+                    <div class="carousel-screenshot">
+                        <img src="https://i.ibb.co/Z6hBvHQt/1000486783.jpg" alt="Selección de países">
+                    </div>
+                    <div class="carousel-screenshot">
+                        <img src="https://i.ibb.co/nNc5kbSc/1000486784.jpg" alt="Interfaz principal">
+                    </div>
+                    <div class="carousel-screenshot">
+                        <img src="https://i.ibb.co/HmjvgK6/1000486787.jpg" alt="Calculadora">
+                    </div>
+                    <div class="carousel-screenshot">
+                        <img src="https://i.ibb.co/0VDZGwKL/1000486789.jpg" alt="Opciones">
+                    </div>
+                    <div class="carousel-screenshot">
+                        <img src="https://i.ibb.co/Gf6dVqjD/1000486790.jpg" alt="Configuración">
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 15px; color: var(--gray);">
+                    <i class="fas fa-arrows-alt-h"></i> Desliza para ver más capturas
+                </p>
+            </div>
+
+            <!-- Purchase Form -->
+            <div id="purchase-form" class="purchase-form">
+                <h2 class="section-title">Completar Compra</h2>
+                <form id="payment-form">
+                    <div class="form-group">
+                        <label for="name">Nombre completo</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Correo electrónico</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Teléfono</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                    
+                    <div class="payment-method">
+                        <i class="fas fa-mobile-alt"></i>
+                        <span>Pago Móvil</span>
+                        <p>Realiza el pago mediante transferencia móvil</p>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fas fa-lock"></i> Proceder al Pago Móvil
+                    </button>
+                </form>
+            </div>
+
+            <!-- QR Section -->
+            <div id="qr-section" class="qr-section">
+                <h2 class="section-title">Realiza tu Pago Móvil</h2>
+                <p>Escanea el código QR o utiliza los datos bancarios para realizar el pago</p>
+                
+                <div class="qr-code">
+                    <div style="text-align: center;">
+                        <div style="font-size: 4rem; color: #333; margin-bottom: 10px;">
+                            <i class="fas fa-qrcode"></i>
+                        </div>
+                        <p style="font-size: 0.9rem; color: #666;">Código QR de pago</p>
+                    </div>
+                </div>
+                
+                <div class="payment-details">
+                    <h3><i class="fas fa-university"></i> Datos Bancarios</h3>
+                    <p><i class="fas fa-building"></i> <strong>Banco:</strong> Provincial</p>
+                    <p><i class="fas fa-phone"></i> <strong>Teléfono:</strong> 0424-6443341</p>
+                    <p><i class="fas fa-id-card"></i> <strong>Cédula:</strong> 13.637.885</p>
+                    <p><i class="fas fa-dollar-sign"></i> <strong>Monto:</strong> $2.99</p>
+                </div>
+                
+                <button id="confirm-payment" class="btn btn-primary" style="margin-top: 20px;">
+                    <i class="fas fa-check"></i> He realizado el pago
+                </button>
+            </div>
+
+            <!-- Reference Form -->
+            <div id="reference-form" class="reference-form">
+                <h2 class="section-title">Confirmar Pago</h2>
+                <p>Por favor, ingresa el número de referencia de tu transferencia para verificar el pago.</p>
+                
+                <form id="reference-submit-form">
+                    <div class="form-group">
+                        <label for="reference-number">Número de Referencia</label>
+                        <input type="text" id="reference-number" placeholder="Ej: 123456789" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fas fa-check-circle"></i> Verificar Pago
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download-section" class="download-section">
+        <div class="container">
+            <div class="download-icon">
+                <i class="fas fa-download"></i>
+            </div>
+            <h2>¡Gracias por tu compra!</h2>
+            <p>Tu pago ha sido verificado correctamente. Ya puedes descargar la aplicación.</p>
+            
+            <div class="download-info">
+                <i class="fas fa-check-circle"></i>
+                <h3>¡Descarga lista!</h3>
+                <p>Haz clic en el botón de abajo para descargar la aplicación directamente</p>
+                <div class="file-info">
+                    <i class="fas fa-file-alt"></i> 
+                    <strong>convertidor_de_divisas.apk</strong> (7.4 MB)
+                </div>
+            </div>
+
+            <div class="security-badge">
+                <i class="fas fa-shield-alt"></i>
+                <strong>Descarga 100% Segura</strong> - Archivo verificado y libre de virus
+            </div>
+            
+            <div class="download-link-container">
+                <a href="https://www.mediafire.com/file/yyyfaidoexia8d5/convertidor_de_divisas.apk/file" class="btn btn-success" id="download-btn">
+                    <i class="fas fa-download"></i> Descargar Convertidor de Divisas
+                </a>
+            </div>
+            
+            <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 20px;">
+                <i class="fas fa-info-circle"></i> 
+                Si la descarga no inicia automáticamente, haz clic derecho en el botón y selecciona "Guardar enlace como..."
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="copyright">
+                &copy; 2023 AppMarket. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const buyBtn = document.getElementById('buy-btn');
+            const purchaseForm = document.getElementById('purchase-form');
+            const qrSection = document.getElementById('qr-section');
+            const referenceForm = document.getElementById('reference-form');
+            const downloadSection = document.getElementById('download-section');
+            const paymentForm = document.getElementById('payment-form');
+            const referenceSubmitForm = document.getElementById('reference-submit-form');
+            const confirmPaymentBtn = document.getElementById('confirm-payment');
+            
+            // Mostrar formulario de compra al hacer clic en "Comprar"
+            buyBtn.addEventListener('click', function() {
+                purchaseForm.classList.add('active');
+                purchaseForm.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Procesar formulario de pago
+            paymentForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Ocultar formulario y mostrar sección QR
+                purchaseForm.classList.remove('active');
+                qrSection.classList.add('active');
+                qrSection.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Confirmar pago - mostrar formulario de referencia
+            confirmPaymentBtn.addEventListener('click', function() {
+                qrSection.classList.remove('active');
+                referenceForm.classList.add('active');
+                referenceForm.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Procesar referencia de pago
+            referenceSubmitForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const referenceNumber = document.getElementById('reference-number').value;
+                
+                if (!referenceNumber) {
+                    alert('Por favor, ingresa el número de referencia');
+                    return;
+                }
+                
+                // Simular verificación de pago
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verificando pago...';
+                submitBtn.disabled = true;
+                
+                // Simular tiempo de verificación
+                setTimeout(function() {
+                    // Ocultar formulario de referencia y mostrar descarga
+                    referenceForm.classList.remove('active');
+                    downloadSection.classList.add('active');
+                    downloadSection.scrollIntoView({ behavior: 'smooth' });
+                    
+                    // Restaurar botón
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }, 3000);
+            });
+        });
+    </script>
+</body>
+</html>
